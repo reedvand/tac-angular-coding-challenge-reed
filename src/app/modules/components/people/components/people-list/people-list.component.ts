@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {People} from "../../models/people.model";
 import {FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'people-list-app',
@@ -16,6 +17,7 @@ export class PeopleListComponent {
   @ViewChild('closeModal') private closeModal: ElementRef;
 
   constructor(private router: Router,
+              private toast: ToastrService,
               private peopleBusiness: PeopleBusiness) {
   }
 
@@ -33,7 +35,8 @@ export class PeopleListComponent {
       .subscribe({
         next: response => {
           this.closeModal.nativeElement.click();
-          this.router.navigate(['people', response.id]);
+          this.router.navigate(['people', response.id])
+            .then(() => this.toast.success('User Added Successfully'));
         },
         error: err => console.log(err)
       });

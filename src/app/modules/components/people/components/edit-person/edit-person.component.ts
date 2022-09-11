@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Person} from "../../models/person.model";
 import {PeopleBusiness} from "../../business/people.business";
 import {FormGroup} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'edit-person-app',
@@ -15,6 +16,7 @@ export class EditPersonComponent implements OnInit {
   person: Person;
 
   constructor(private router: Router,
+              private toast: ToastrService,
               private activatedRoute: ActivatedRoute,
               private peopleBusiness: PeopleBusiness) {
     this.userId = this.activatedRoute.snapshot.params['id'];
@@ -45,7 +47,10 @@ export class EditPersonComponent implements OnInit {
 
     this.peopleBusiness.updatePerson(person)
       .subscribe({
-        next: () => this.router.navigate(['/people', this.person.id]),
+        next: () => {
+          this.router.navigate(['/people', this.person.id])
+            .then(() => this.toast.success('User Updated Successfully'));
+        },
         error: err => console.log(err)
       });
   }
@@ -53,7 +58,10 @@ export class EditPersonComponent implements OnInit {
   onDeleteUser() {
     this.peopleBusiness.deletePerson(this.person.id)
       .subscribe({
-        next: () => this.router.navigate(['/']),
+        next: () => {
+          this.router.navigate(['/'])
+            .then(() => this.toast.success('User Deleted Successfully'));
+        },
         error: err => console.log(err)
       });
   }

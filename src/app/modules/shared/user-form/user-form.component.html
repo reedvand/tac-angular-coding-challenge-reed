@@ -39,7 +39,7 @@
   </div>
 
   <div class="col-md-6">
-    <button class="btn btn-primary w-100" [disabled]="userForm.invalid || (userForm.invalid && userForm.dirty)">
+    <button class="btn btn-primary w-100" [disabled]="userForm.invalid || userForm.pristine">
       Save
     </button>
   </div>
