@@ -32,16 +32,11 @@ export class PeopleBusiness {
   getPersonById(id: string): Observable<Person> {
     return this.httpService.getRequest('http://localhost:4500/people/' + id)
       .pipe(
-        map(details => {
-          let person: Person = {
-            name: details.name,
-            isActive: details.isActive,
-            about: details.about,
-            age: details.age,
-            gender: details.gender
-          };
-          return person;
-        })
+        map((person: Person) => person)
       );
+  }
+
+  updatePerson(person: Person) {
+    return this.httpService.putRequest('http://localhost:4500/people/' + person.id, person);
   }
 }

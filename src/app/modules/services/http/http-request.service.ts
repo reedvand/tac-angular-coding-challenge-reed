@@ -15,4 +15,8 @@ export class HttpRequestService {
     return this.httpClient.post<any>(url, data);
   }
 
+  putRequest(url: string, data: any) {
+    return this.httpClient.put<any>(url, data);
+  }
+
 }

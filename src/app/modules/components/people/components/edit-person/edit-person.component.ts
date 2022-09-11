@@ -1,6 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-import {BehaviorSubject} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Person} from "../../models/person.model";
 import {PeopleBusiness} from "../../business/people.business";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
@@ -16,7 +15,8 @@ export class EditPersonComponent implements OnInit {
   userForm: FormGroup;
   person: Person = null;
 
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(private router: Router,
+              private activatedRoute: ActivatedRoute,
               private peopleBusiness: PeopleBusiness) {
     this.userId = this.activatedRoute.snapshot.params['id'];
   }
@@ -53,7 +53,20 @@ export class EditPersonComponent implements OnInit {
     this.userForm.markAllAsTouched();
 
     if (this.userForm.valid) {
-      console.log(this.userForm.value);
+      this.person = {
+        ...this.person,
+        name: this.userForm.value.name,
+        isActive: this.userForm.value.isActive,
+        age: this.userForm.value.age,
+        about: this.userForm.value.about,
+        gender: this.userForm.value.gender
+      };
+
+      this.peopleBusiness.updatePerson(this.person)
+        .subscribe({
+          next: () => this.router.navigate(['/people']),
+          error: err => console.log(err)
+        });
     }
   }
 
