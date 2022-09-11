@@ -64,7 +64,7 @@ export class EditPersonComponent implements OnInit {
 
       this.peopleBusiness.updatePerson(this.person)
         .subscribe({
-          next: () => this.router.navigate(['/people']),
+          next: () => this.router.navigate(['/people', this.person.id]),
           error: err => console.log(err)
         });
     }
