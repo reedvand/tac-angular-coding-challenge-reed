@@ -1,6 +1,8 @@
 import {NgModule} from "@angular/core";
 import {EditPersonComponent} from "./edit-person.component";
 import {RouterModule, Routes} from "@angular/router";
+import {AsyncPipe, NgIf} from "@angular/common";
+import {ReactiveFormsModule} from "@angular/forms";
 
 const routes: Routes = [
   {path: '', component: EditPersonComponent}
@@ -11,7 +13,10 @@ const routes: Routes = [
     EditPersonComponent
   ],
   imports: [
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    NgIf,
+    AsyncPipe,
+    ReactiveFormsModule
   ]
 })
 export class EditPersonModule {}

@@ -3,6 +3,7 @@ import {HttpRequestService} from "../../../services/http/http-request.service";
 import {Observable} from "rxjs";
 import {map} from 'rxjs/operators';
 import {People} from "../models/people.model";
+import {Person} from "../models/person.model";
 
 @Injectable({providedIn: 'root'})
 export class PeopleBusiness {
@@ -28,7 +29,19 @@ export class PeopleBusiness {
         }));
   }
 
-  getPersonById(id: string) {
-    return this.httpService.getRequest('http://localhost:4500/people/' + id);
+  getPersonById(id: string): Observable<Person> {
+    return this.httpService.getRequest('http://localhost:4500/people/' + id)
+      .pipe(
+        map(details => {
+          let person: Person = {
+            name: details.name,
+            isActive: details.isActive,
+            about: details.about,
+            age: details.age,
+            gender: details.gender
+          };
+          return person;
+        })
+      );
   }
 }
