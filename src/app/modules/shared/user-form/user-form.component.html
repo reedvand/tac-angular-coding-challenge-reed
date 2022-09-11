@@ -1,0 +1,47 @@
+<form class="row g-3" [formGroup]="userForm" (ngSubmit)="onSaveUser()">
+  <div class="col-md-6">
+    <input type="text" maxlength="70" formControlName="name" class="form-control" placeholder="Name"
+           [class.is-invalid]="userForm.get('name').invalid && userForm.get('name').touched"
+           [class.is-valid]="userForm.get('name').valid && userForm.get('name').touched"/>
+  </div>
+
+  <div class="col-md-6 d-flex justify-content-center align-items-center">
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="isActive" formControlName="isActive">
+      <label class="form-check-label" for="isActive">
+        {{userForm.get('isActive').value ? 'Active' : 'Inactive'}}
+      </label>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <input class="form-control" type="number" formControlName="age" placeholder="Age"
+           [class.is-invalid]="userForm.get('age').invalid && userForm.get('age').touched"
+           [class.is-valid]="userForm.get('age').valid && userForm.get('age').touched"/>
+  </div>
+
+  <div class="col-md-6">
+    <select id="gender" formControlName="gender" class="form-select w-100"
+            [class.is-invalid]="userForm.get('gender').invalid && userForm.get('gender').touched"
+            [class.is-valid]="userForm.get('gender').valid && userForm.get('gender').touched">
+      <option value="">Gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+  </div>
+
+  <div class="col-md-12">
+    <div class="form-floating">
+              <textarea class="form-control" formControlName="about" id="about" maxLength="250"
+                        style="height: 250px;"></textarea>
+      <label for="about">About</label>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <button class="btn btn-primary w-100" [disabled]="userForm.invalid || (userForm.invalid && userForm.dirty)">
+      Save
+    </button>
+  </div>
+</form>
+

@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Person} from "../../models/person.model";
 import {PeopleBusiness} from "../../business/people.business";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'edit-person-app',
@@ -12,8 +12,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export class EditPersonComponent implements OnInit {
 
   userId: string;
-  userForm: FormGroup;
-  person: Person = null;
+  person: Person;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -28,46 +27,27 @@ export class EditPersonComponent implements OnInit {
   getUserDetails() {
     this.peopleBusiness.getPersonById(this.userId).subscribe(
       {
-        next: (person: Person) => {
-          this.person = person;
-          this.setUserForm();
-        },
+        next: (person: Person) => this.person = person,
         error: err => console.log(err)
       }
     );
   }
 
-  setUserForm() {
-    this.userForm = new FormGroup({
-      name: new FormControl(this.person.name,
-        [Validators.required, Validators.max(70)]),
-      isActive: new FormControl(this.person.isActive),
-      age: new FormControl(this.person.age,
-        [Validators.required, Validators.min(18), Validators.max(110)]),
-      about: new FormControl(this.person.about, Validators.max(250)),
-      gender: new FormControl(this.person.gender, Validators.required),
-    });
-  }
-
-  onSaveUser() {
-    this.userForm.markAllAsTouched();
-
-    if (this.userForm.valid) {
-      this.person = {
+  onSaveUser(userForm: FormGroup) {
+      const person = {
         ...this.person,
-        name: this.userForm.value.name,
-        isActive: this.userForm.value.isActive,
-        age: this.userForm.value.age,
-        about: this.userForm.value.about,
-        gender: this.userForm.value.gender
+        name: userForm.value.name,
+        isActive: userForm.value.isActive,
+        age: userForm.value.age,
+        about: userForm.value.about,
+        gender: userForm.value.gender
       };
 
-      this.peopleBusiness.updatePerson(this.person)
+      this.peopleBusiness.updatePerson(person)
         .subscribe({
           next: () => this.router.navigate(['/people', this.person.id]),
           error: err => console.log(err)
         });
-    }
   }
 
 }

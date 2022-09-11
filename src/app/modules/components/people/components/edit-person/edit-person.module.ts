@@ -3,6 +3,7 @@ import {EditPersonComponent} from "./edit-person.component";
 import {RouterModule, Routes} from "@angular/router";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
+import {UserFormModule} from "../../../../shared/user-form/user-form.module";
 
 const routes: Routes = [
   {path: '', component: EditPersonComponent}
@@ -16,7 +17,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NgIf,
     AsyncPipe,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UserFormModule
   ]
 })
 export class EditPersonModule {}

@@ -8,11 +8,13 @@ import {Person} from "../models/person.model";
 @Injectable({providedIn: 'root'})
 export class PeopleBusiness {
 
+  apiUrl = 'http://localhost:4500/people/';
+
   constructor(private httpService: HttpRequestService) {
   }
 
   getPeople(): Observable<People[]> {
-    return this.httpService.getRequest('http://localhost:4500/people')
+    return this.httpService.getRequest(this.apiUrl)
       .pipe(
         map(people => {
           const peopleList: People[] = people.map((p: any) => {
@@ -30,13 +32,17 @@ export class PeopleBusiness {
   }
 
   getPersonById(id: string): Observable<Person> {
-    return this.httpService.getRequest('http://localhost:4500/people/' + id)
+    return this.httpService.getRequest(this.apiUrl + id)
       .pipe(
         map((person: Person) => person)
       );
   }
 
   updatePerson(person: Person) {
-    return this.httpService.putRequest('http://localhost:4500/people/' + person.id, person);
+    return this.httpService.putRequest(this.apiUrl + person.id, person);
+  }
+
+  addPerson(person: any) {
+    return this.httpService.postRequest(this.apiUrl, person);
   }
 }

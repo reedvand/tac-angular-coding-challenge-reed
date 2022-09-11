@@ -1,4 +1,14 @@
 <div class="container">
+  <div class="d-flex mb-3">
+    <h5>User List</h5>
+
+    <div class="ms-auto">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+        <i class="bi bi-plus-lg" style="margin-right: 10px;"></i>Add User
+      </button>
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-body">
       <div class="table-responsive">
@@ -32,6 +42,25 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="addUserModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Add User
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+      </div>
+
+      <div class="modal-body">
+        <user-form-app [person]="null" (saveUser)="onSaveUser($event)"></user-form-app>
       </div>
     </div>
   </div>
