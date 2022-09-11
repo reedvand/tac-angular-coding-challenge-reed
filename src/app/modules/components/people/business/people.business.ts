@@ -45,4 +45,8 @@ export class PeopleBusiness {
   addPerson(person: any) {
     return this.httpService.postRequest(this.apiUrl, person);
   }
+
+  deletePerson(id: string) {
+    return this.httpService.deleteRequest(this.apiUrl + id);
+  }
 }

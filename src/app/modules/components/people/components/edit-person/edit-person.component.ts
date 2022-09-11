@@ -34,20 +34,28 @@ export class EditPersonComponent implements OnInit {
   }
 
   onSaveUser(userForm: FormGroup) {
-      const person = {
-        ...this.person,
-        name: userForm.value.name,
-        isActive: userForm.value.isActive,
-        age: userForm.value.age,
-        about: userForm.value.about,
-        gender: userForm.value.gender
-      };
+    const person = {
+      ...this.person,
+      name: userForm.value.name,
+      isActive: userForm.value.isActive,
+      age: userForm.value.age,
+      about: userForm.value.about,
+      gender: userForm.value.gender
+    };
 
-      this.peopleBusiness.updatePerson(person)
-        .subscribe({
-          next: () => this.router.navigate(['/people', this.person.id]),
-          error: err => console.log(err)
-        });
+    this.peopleBusiness.updatePerson(person)
+      .subscribe({
+        next: () => this.router.navigate(['/people', this.person.id]),
+        error: err => console.log(err)
+      });
+  }
+
+  onDeleteUser() {
+    this.peopleBusiness.deletePerson(this.person.id)
+      .subscribe({
+        next: () => this.router.navigate(['/']),
+        error: err => console.log(err)
+      });
   }
 
 }

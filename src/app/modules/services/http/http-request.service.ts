@@ -19,4 +19,7 @@ export class HttpRequestService {
     return this.httpClient.put<any>(url, data);
   }
 
+  deleteRequest(url: string) {
+    return this.httpClient.delete<any>(url);
+  }
 }
