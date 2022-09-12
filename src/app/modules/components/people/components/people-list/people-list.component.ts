@@ -5,6 +5,7 @@ import {People} from "../../models/people.model";
 import {FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'people-list-app',
@@ -13,6 +14,7 @@ import {ToastrService} from "ngx-toastr";
 })
 export class PeopleListComponent {
 
+  filterString = '';
   peopleList$: Observable<People[]> = this.peopleBusiness.getPeople();
   @ViewChild('closeModal') private closeModal: ElementRef;
 
@@ -35,10 +37,17 @@ export class PeopleListComponent {
       .subscribe({
         next: response => {
           this.closeModal.nativeElement.click();
+
           this.router.navigate(['people', response.id])
             .then(() => this.toast.success('User Added Successfully'));
         },
         error: err => console.log(err)
       });
+  }
+
+  searchUsers() {
+    this.peopleList$ = this.peopleList$.pipe(
+      map(people => people.filter(p => p.name.toLowerCase().indexOf(this.filterString.toLowerCase()) > -1))
+    );
   }
 }
